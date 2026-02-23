@@ -1,0 +1,33 @@
+:root {
+	--absolute-white: #fff;
+	--absolute-black: #000;
+
+	--purple-main: #a53dff;
+
+	--purple-50: #edd8ff80;
+	--purple-100: #210c33;
+
+	--blue-dark: #132238;
+
+	--red-05: #ffc8c8;
+
+	--grey-05: #f0f1f3;
+	--grey-10: #e6e8eb;
+	--grey-15: #c4c4c4;
+	--grey-20: #c3c7ce;
+	--grey-30: #b8bcc2;
+	--grey-35: #a5acb5;
+	--grey-40: #87909d;
+	--grey-50: #697484;
+	--grey-60: #556070;
+	--grey-70: #424e60;
+	--grey-80: #2b384c;
+	--grey-90: #333333;
+
+	/*======================================================*/
+
+	/*======================================================*/
+	/* fonts */
+	--font-family: "Work Sans", sans-serif;
+	--second-family: "Poppins", sans-serif;
+}

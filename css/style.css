@@ -1,0 +1,60 @@
+/* Підключення фрифтів */
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css?family=Work+Sans:regular,500,600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,regular,500,600&display=swap");
+
+/* Скидання стилів */
+@import url("reset.css");
+
+/*Змінні: кольори та шрифти */
+@import url("variables.css");
+
+/* Загальні стилі */
+@import url("common.css");
+
+/* Підключення секцій */
+@import url("header.css");
+@import url("main.css");
+@import url("footer.css");
+@import url("animations.css");
+
+/* Основні стилі */
+html {
+	scroll-behavior: smooth;
+}
+
+*{
+	scroll-margin-top: 40px;
+}
+
+body {
+	font-family: var(--font-family);
+	opacity: 0;
+	transition: opacity 1.5s;
+}
+
+.loaded body {
+	opacity: 1;
+}
+
+.open-menu body {
+	overflow: hidden;
+}
+
+.wrapper {
+	min-height: 100%;
+	overflow: hidden;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.wrapper > main {
+	flex: 1 1 auto;
+}
+
+[class*="__container"] {
+	max-width: 1350px; /*1350 = 1320 + 30*/
+	margin: 0 auto;
+	padding-inline: 15px; /*15 + 15 = 30*/
+}
