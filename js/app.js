@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	initReveal();
 	initCounters();
 	initHeaderScroll();
+	initClientsMarquee();
 });
 
 window.addEventListener("load", windowLoad);
@@ -80,23 +81,78 @@ function initCounters() {
 function initHeaderScroll() {
 	const header = document.querySelector(".header");
 	const sentinel = document.querySelector(".header-sentinel");
-
 	if (!header || !sentinel) return;
 
 	const observer = new IntersectionObserver(
-		(entries) => {
-			entries.forEach((entry) => {
-				if (!entry.isIntersecting) {
-					header.classList.add("_header-scrolled");
-				} else {
-					header.classList.remove("_header-scrolled");
-				}
-			});
+		([entry]) => {
+			header.classList.toggle("_header-scrolled", !entry.isIntersecting);
 		},
-		{ threshold: 0 }
+		{
+			threshold: 0,
+			rootMargin: "-1px 0px 0px 0px"
+		}
 	);
 
 	observer.observe(sentinel);
+}
+
+/* =========================
+   Clients Marquee (seamless loop, clone in JS)
+========================= */
+function initClientsMarquee() {
+	const marquee = document.querySelector(".clients__marquee");
+	const track = document.querySelector(".clients__track");
+	const list = document.querySelector(".clients__list");
+
+	if (!marquee || !track || !list) return;
+
+	const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	if (prefersReduced) return;
+
+	// Клонування списку для seamless loop
+	const clone = list.cloneNode(true);
+	track.appendChild(clone);
+
+	let position = 0;
+	let lastTime = performance.now();
+	const speed = 80; // px per second
+
+	const getListWidth = () => Math.round(list.getBoundingClientRect().width);
+	let listWidth = getListWidth();
+
+	window.addEventListener("resize", () => {
+		listWidth = getListWidth();
+		position = position % listWidth;
+		if (position > 0) position -= listWidth;
+	});
+
+	let paused = false;
+
+	marquee.addEventListener("mouseenter", () => (paused = true));
+	marquee.addEventListener("mouseleave", () => {
+		paused = false;
+		lastTime = performance.now();
+	});
+
+	function animate(time) {
+		const delta = (time - lastTime) / 1000;
+		lastTime = time;
+
+		if (!paused) {
+			position -= speed * delta;
+
+			if (position <= -listWidth) {
+				position += listWidth;
+			}
+
+			// Округлення до цілого px для уникнення SVG clipping bug (Amazon arrow issue)
+			track.style.transform = `translate3d(${Math.round(position)}px,0,0)`;
+		}
+
+		requestAnimationFrame(animate);
+	}
+
+	requestAnimationFrame(animate);
 }
 
 /* =========================
